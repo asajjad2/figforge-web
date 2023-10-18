@@ -3,8 +3,9 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import Loader from "@/public/loader.svg";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-export default function resetPassword(){
+export default function ResetPassword(){
     const [newPassword, setNewPassword] = useState("");
     const [isUpdating, setIsUpdating] = useState(false);
 
@@ -47,7 +48,7 @@ export default function resetPassword(){
             >
                 Update
                 {isUpdating && (
-                <img
+                <Image
                     src={Loader}
                     alt="loader"
                     height={16}

@@ -3,6 +3,7 @@ import { useReducer, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import Loader from "@/public/loader.svg";
+import Image from "next/image";
 
 const initialState = {
     email: "",
@@ -96,7 +97,7 @@ export default function SignIn() {
                 >
                 Sign in
                 {loading && (
-                    <img
+                    <Image
                     src={Loader}
                     alt="loader"
                     height={16}

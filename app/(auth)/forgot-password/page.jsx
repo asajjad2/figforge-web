@@ -3,8 +3,9 @@
 import { useState } from "react"
 import { supabase } from "@/lib/supabase"
 import Loader from "@/public/loader.svg"
+import Image from "next/image"
 
-export default function forgotPassword(){
+export default function ForgotPassword(){
     const [email, setEmail] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -56,7 +57,7 @@ export default function forgotPassword(){
                 >
                 Send a link
                 {loading && (
-                    <img
+                    <Image
                     src={Loader}
                     alt="loader"
                     height={16}
