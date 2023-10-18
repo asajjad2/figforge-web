@@ -108,7 +108,7 @@ export default function SignIn() {
                 </button>
                 <a href="/forgot-password" className="mt-2 text-sm hover:text-green-500">Forgot password?</a>
 
-                <p className="text-sm">Don't have an account?
+                <p className="text-sm">Don&apos;t have an account?
                     <span className="text-green-500 cursor-pointer ml-1" onClick={()=>{
                         router.push('/signup')
                     }}>signup here.</span>

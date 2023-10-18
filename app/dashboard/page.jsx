@@ -28,7 +28,7 @@ export default function DashboardPage() {
                 }
                 </span>
                 <br />
-                Here's your figma plugin key
+                Here&apos;s your figma plugin key
                 <span className="ml-1 font-semibold">
                 {session?.user?.id}
                 </span>
