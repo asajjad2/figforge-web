@@ -57,7 +57,10 @@ export default function DashboardPage() {
 
             <div className='grid grid-cols-3 gap-y-3'>
                 {
-                    projects.map((project)=>{
+                    projects.length === 0 ? 
+                        <div className='text-left'>You currently have no projects.</div>
+                    : (
+                        projects.map((project)=>{
                         const {id, name, description, updated_at} = project
 
                         return (
@@ -68,8 +71,9 @@ export default function DashboardPage() {
                                 lastUpdated={updated_at}
                                 key = {id}
                             />
-                        )
-                    })
+                        )})
+                    )
+                    
                 }
             </div>
             

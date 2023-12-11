@@ -31,12 +31,10 @@ export default function ProjectCard({id, name, lastUpdated, description}){
         router.push(`/sandbox/${id}`)
     }
 
-    console.log(name,name.length > 15)
-
 
     return (
         <div onClick={handleClick}>
-            <Card className="w-[340px] h-40  flex flex-col justify-between  bg-slate-700 text-white cursor-pointer border-none">
+            <Card className="w-[340px] h-40  flex flex-col justify-between  bg-slate-700 text-white cursor-pointer border-none hover:bg-slate-600 transition duration-300 ease-in-ou">
                 <CardHeader className="text-left space-y-3">
                     <div className="flex justify-between">
                         <CardTitle>{name.length > 15? truncateString(name) : name}</CardTitle>

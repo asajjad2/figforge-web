@@ -11,18 +11,17 @@ export const useUserProjects = () => {
     const fetchProjects = async () => {
       try {
 
-        const user = supabase.auth.getUser();
+        const { data: { user } } = await supabase.auth.getUser()
 
         if (!user) {
           throw new Error('Not authenticated');
+        } else {
+          console.log(user.id)
         }
 
-
-        console.log("getting projects")
-
-        const { data, error: fetchError } = await supabase
-          .from('project')
-          .select('*');
+        const { data, error: fetchError } = await supabase.rpc("get_user_projects",{
+          user_uuid : user.id
+        })
 
         if (fetchError) {
           throw fetchError;

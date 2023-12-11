@@ -18,7 +18,7 @@ const headerItems = [
 
 const SidebarItem = ({item, router}) => {
     return (
-        <div className="px-3 py-2 rounded-[6px] space-x-3 text-gray-400 font-medium text-base flex cursor-pointer"
+        <div className="px-3 py-2 rounded-[6px] space-x-3 hover:text-white text-gray-400 font-medium text-base flex cursor-pointer"
             onClick={() => {
                 router.push(item.path)
             }}
