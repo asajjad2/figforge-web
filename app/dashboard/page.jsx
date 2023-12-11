@@ -1,12 +1,16 @@
 "use client"
 import { useAuth } from '@/hooks/useAuth'
+import { useUserProjects } from '@/hooks/useUserProjects';
 import { supabase } from '@/lib/supabase'
-import Clipboard from 'feather-icons-react/build/IconComponents/Clipboard'
 import { useRouter } from 'next/navigation'
+
+import ProjectCard from '@/components/project-card'
+  
 
 export default function DashboardPage() {
 
-    const { loading, session } = useAuth()
+    const { loadingProjects, projects, error } = useUserProjects()
+    const { loadingAuth, session } = useAuth()
     const router = useRouter()
 
     const signOut = async () => {
@@ -15,11 +19,14 @@ export default function DashboardPage() {
         if (error) console.log(error)
     }
 
-    if(loading) return <></>
+    if(loadingAuth || loadingProjects) return <>Getting Projects.....</>
+    if (error) return <p>Error: {error}</p>;
+
+    console.log(projects)
     return <>
         
         <div className='py-4 h-screen text-center'>
-            <h1>Home</h1>
+            {/* <h1>Home</h1>
             <p className='text-center'>
                 Welcome{" "}
                 <span className="font-semibold">
@@ -39,14 +46,32 @@ export default function DashboardPage() {
                     <Clipboard size={16} />
                 </button>
                 </span>
-            </p>
+            </p> */}
 
 
             {/* signout button */}
             
-            <button className="mt-4 border text-white border-white bg-red-700 rounded px-2 py-1 hover:bg-red-500" onClick={signOut}>
+            {/* <button className="mt-4 border text-white border-white bg-red-700 rounded px-2 py-1 hover:bg-red-500" onClick={signOut}>
                 signout
-            </button>
+            </button> */}
+
+            <div className='grid grid-cols-3 gap-y-3'>
+                {
+                    projects.map((project)=>{
+                        const {id, name, description, updated_at} = project
+
+                        return (
+                            <ProjectCard 
+                                id = {id}
+                                name = {name}
+                                description = {description}
+                                lastUpdated={updated_at}
+                            />
+                        )
+                    })
+                }
+            </div>
+            
 
         </div>
     </>

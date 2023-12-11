@@ -37,5 +37,5 @@ export function useAuth() {
     getSession()
   }, [])
 
-  return { isAuthorized, loading, session }
+  return { isAuthorized, loadingAuth : loading, session }
 }
