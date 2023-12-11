@@ -66,6 +66,7 @@ export default function DashboardPage() {
                                 name = {name}
                                 description = {description}
                                 lastUpdated={updated_at}
+                                key = {id}
                             />
                         )
                     })

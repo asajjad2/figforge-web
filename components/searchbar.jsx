@@ -31,10 +31,10 @@ export default function Searchbar({ className, ...props}, ref) {
                 // when user clicks enter
             />
         </div>
-        {
+        {/* {
             searchQuery.length > 0 && 
             <SearchDropDown value={searchQuery} router={router}/>
-        }
+        } */}
     </div>
     
   )
