@@ -23,6 +23,11 @@ export default function DashboardPage() {
     if (error) return <p>Error: {error}</p>;
 
     console.log(projects)
+
+    if(projects.length == 0){
+        return <h2>You currently have no projects.</h2>
+    }
+
     return <>
         
         <div className='py-4 h-screen text-center'>
@@ -57,9 +62,7 @@ export default function DashboardPage() {
 
             <div className='grid grid-cols-3 gap-y-3'>
                 {
-                    projects.length === 0 ? 
-                        <div className='text-left'>You currently have no projects.</div>
-                    : (
+                    
                         projects.map((project)=>{
                         const {id, name, description, updated_at} = project
 
@@ -72,7 +75,7 @@ export default function DashboardPage() {
                                 key = {id}
                             />
                         )})
-                    )
+                    
                     
                 }
             </div>

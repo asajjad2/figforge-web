@@ -17,7 +17,7 @@ const useProjectData = (projectId) => {
     const fetchProjectPages = async () => {
       try {
         const { data, error } = await supabase
-          .rpc('get_project_details', { p_project_id: projectId });
+          .rpc('get_project_details2', { p_project_id: projectId });
 
         if (error) {
           throw error;

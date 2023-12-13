@@ -13,11 +13,25 @@ export default function Page({ params, searchParams }) {
 
     const { projectPages, loading, error } = useProjectData(params.projectID);
     const [file, setFile] = useState(null);
+    const [combinedPages, setCombinedPages] = useState([]);
+
     useEffect(() => {
         if (projectPages.length > 0) {
-          setFile(projectPages[0]);
+
+            const newCombinedPages = projectPages.reduce((acc, page) => {
+            let page_name_local = page.page_name;
+            page.page_name = `${page_name_local}.jsx`;
+
+            acc.push(page);
+            if (page.style) {
+              acc.push({ ...page, page_name: `${page_name_local}.css`, content: page.style });
+            }
+            return acc;
+          }, []);
+          setCombinedPages(newCombinedPages);
+          setFile(combinedPages[0]);
         }
-      }, [projectPages]);
+    }, [projectPages]);
 
     if(loading) return <>Loading Project...</>
     if (error) return <p>Error: {error}</p>;
@@ -25,15 +39,15 @@ export default function Page({ params, searchParams }) {
     console.log(file)
 
     const changeFile = (index) => {
-        console.log(projectPages[index])
-        setFile(projectPages[index])
+        console.log(combinedPages[index])
+        setFile(combinedPages[index])
     }
 
 
     return (
         <div className='flex flex-1 overflow-hidden'>
-            <ProjectSidebar projectPages={projectPages} changeFile={changeFile}/>
-            <div className='flex-1 overflow-auto overflow-y-hidden  '>
+            <ProjectSidebar projectPages={combinedPages} changeFile={changeFile}/>
+            <div className='flex-1 overflow-auto overflow-y-hidden'>
                 {file && (
                     <>
                         <Editor 
@@ -44,7 +58,7 @@ export default function Page({ params, searchParams }) {
                             width="90%"
                         />
 
-                        <div className="cursor-pointer absolute right-36 bottom-16 text-white hover:text-gray-400 " onClick={()=>{
+                        <div className="cursor-pointer absolute right-36 bottom-16 text-white hover:text-gray-400 " onClick={() => {
                             navigator.clipboard.writeText(file.content)
                             toast({
                                 title: "Copied to clipboard!"
@@ -53,9 +67,8 @@ export default function Page({ params, searchParams }) {
                             <FeatherIcon className="inline-block" icon={"clipboard"} size={24}/>
                         </div>
                     </>
-                    
                 )}
             </div>
         </div>
-    )
+    );
 }

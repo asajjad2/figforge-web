@@ -2,7 +2,7 @@
 import React, {useState} from 'react'
 import FeatherIcon from 'feather-icons-react/build/FeatherIcon'
 
-const SidebarItem = ({item, onClick, active}) => {
+const SidebarItem = ({item, onClick, active, type}) => {
     return (
         <div className="px-6 py-2 rounded-[6px] space-x-3 hover:text-white text-gray-400 font-medium text-xs flex items-center cursor-pointer"
             onClick={onClick}
@@ -26,7 +26,8 @@ export default function ProjectSidebar({projectPages, changeFile}) {
   return (
     <div className='pb-8 mx-4 min-w-[19vw] h-full flex flex-col justify-between '>
         <header className='space-y-6'>
-            <div className="header-items">{
+            <div className="header-items">
+            {
                 projectPages.map((item, index) => {
 
                     const active = currentPage === index;
@@ -37,7 +38,9 @@ export default function ProjectSidebar({projectPages, changeFile}) {
                             setCurrentPage(index)
                         }}/>
                     )
-            })}</div>
+            })}
+            
+            </div>
         </header>
         <footer>
         <div className="header-items">

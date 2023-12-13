@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import NavSidebar from '@/components/nav-sidebar'
 export default function layout({children}) {
