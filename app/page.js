@@ -1,14 +1,23 @@
 "use client"
-import Image from 'next/image'
-import { useAuth } from '@/hooks/useAuth'
-import { useRouter } from 'next/navigation'
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function Home() {
+  const { isAuthorized, loading } = useAuth();
+  const router = useRouter();
 
-  const { isAuthorized, loading, session } = useAuth()
+  useEffect(() => {
+    if (!loading) {
+      if (!isAuthorized) {
+        router.push('/signin');
+      } else {
+        router.push('/dashboard');
+      }
+    }
+  }, [isAuthorized, loading, router]);
 
-  const router = useRouter()
-  if(loading) return <></>
-  if(!isAuthorized) return router.push('/signin')
-  return router.push('/dashboard')
+  if (loading) return <div>Loading...</div>;
+  
+  return null;
 }

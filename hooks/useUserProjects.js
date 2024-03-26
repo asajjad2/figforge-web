@@ -16,7 +16,7 @@ export const useUserProjects = () => {
         if (!user) {
           throw new Error('Not authenticated');
         } else {
-          console.log(user.id)
+          console.log(user)
         }
 
         const { data, error: fetchError } = await supabase.rpc("get_user_projects",{

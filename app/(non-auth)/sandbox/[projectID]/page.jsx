@@ -4,7 +4,7 @@ import ProjectSidebar from "@/components/project-sidebar";
 import Editor from '@monaco-editor/react';
 import FeatherIcon from 'feather-icons-react/build/FeatherIcon'
 import { useToast } from "@/components/ui/use-toast"
-
+import { downloadFile } from "@/lib/utils";
 import { useState, useEffect } from "react";
 
 export default function Page({ params, searchParams }) {
@@ -58,13 +58,18 @@ export default function Page({ params, searchParams }) {
                             width="90%"
                         />
 
-                        <div className="cursor-pointer absolute right-36 bottom-16 text-white hover:text-gray-400 " onClick={() => {
+                        <div className="cursor-pointer absolute right-44 bottom-16 text-white hover:text-gray-400 " onClick={() => {
                             navigator.clipboard.writeText(file.content)
                             toast({
                                 title: "Copied to clipboard!"
                             })
                         }}>
                             <FeatherIcon className="inline-block" icon={"clipboard"} size={24}/>
+                        </div>
+
+                        <div className="cursor-pointer absolute right-32 bottom-16 text-white hover:text-gray-400" 
+                            onClick={() => downloadFile(file.content, file.page_name)}>
+                            <FeatherIcon className="inline-block" icon={"download"} size={24}/>
                         </div>
                     </>
                 )}
