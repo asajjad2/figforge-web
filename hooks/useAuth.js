@@ -1,41 +1,28 @@
-"use client"
-import { useState, useEffect } from "react"
-import { supabase } from "@/lib/supabase"
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
 
 export function useAuth() {
-  const [session, setSession] = useState(null)
-  const [isAuthorized, setIsAuthorized] = useState(false)
-  const [loading, setLoading] = useState(true)
-
-  async function getSession() {
-    setLoading(true)
-    try {
-      const {
-        data: { session },
-        error
-      } = await supabase.auth.getSession()
-
-      if (error) throw error
-
-      setLoading(false)
-      if (!session) {
-        setIsAuthorized(false)
-        setSession(null)
-        return
-      }
-      setSession(session)
-      setIsAuthorized(true)
-    } catch (error) {
-      console.log(error)
-      setLoading(false)
-      setIsAuthorized(false)
-      setSession(null)
-    }
-  }
+  const [session, setSession] = useState(supabase.auth.getSession()); // Initialize state with current session
+  const [isAuthorized, setIsAuthorized] = useState(!!session); // Determine if authorized based on session existence
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getSession()
-  }, [])
+    // Define a function to update state based on the auth changes
+    const updateAuthState = (event, session) => {
+      setSession(session);
+      setIsAuthorized(!!session);
+      setLoading(false);
+    };
 
-  return { isAuthorized, loadingAuth : loading, session }
+    // Listen for auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange(updateAuthState);
+
+    // If the component mounts and there's already a session, ensure loading is set to false
+    if (session) {
+      setLoading(false);
+    }
+
+  }, []);
+
+  return { isAuthorized, loadingAuth: loading, session };
 }

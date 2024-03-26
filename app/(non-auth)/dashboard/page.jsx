@@ -1,8 +1,6 @@
 "use client"
 import { useAuth } from '@/hooks/useAuth'
 import { useUserProjects } from '@/hooks/useUserProjects';
-import { supabase } from '@/lib/supabase'
-import { useRouter } from 'next/navigation'
 
 import ProjectCard from '@/components/project-card'
   
@@ -11,13 +9,6 @@ export default function DashboardPage() {
 
     const { loadingProjects, projects, error } = useUserProjects()
     const { loadingAuth, session } = useAuth()
-    const router = useRouter()
-
-    const signOut = async () => {
-        const { error } = await supabase.auth.signOut()
-        router.push('/signin')
-        if (error) console.log(error)
-    }
 
     if(loadingAuth || loadingProjects) return <>Getting Projects.....</>
     if (error) return <p>Error: {error}</p>;

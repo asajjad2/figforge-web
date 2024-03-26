@@ -43,6 +43,7 @@ export default function Page({ params, searchParams }) {
         setFile(combinedPages[index])
     }
 
+    if(!file) return (<div className="px-10 ">No files found</div>)
 
     return (
         <div className='flex flex-1 overflow-hidden'>
