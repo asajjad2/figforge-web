@@ -7,8 +7,40 @@ import ProjectCard from '@/components/project-card'
 import { useUser } from '@/context/userContext';
 import { addUserToExternalTable } from '@/lib/supabaseFunctions';
 
+import { useSearchParams } from 'next/navigation';
+
+async function pushCode(accessToken, repository, filePath, code) {
+
+    const response = await fetch('http://localhost:3001/push-code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        accessToken,
+        repository,
+        filePath,
+        content: code
+      })
+    });
+  
+    const data = await response.json();
+    if (!data.success) {
+      console.error('Failed to push code:', data.message);
+      return;
+    }
+  
+    console.log('Code pushed successfully:', data.result);
+}
+
+
 export default function DashboardPage() {
+
+    const searchParams = useSearchParams();
+    const token = searchParams.get('token');
     const { user } = useUser();
+
+    console.log('token', token);
 
     // A lot of supabase calls will be made here
     useEffect(() => {
@@ -42,12 +74,22 @@ export default function DashboardPage() {
                     </span>
                 </p>
                 
-                <button 
-                    className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500' 
-                    onClick={() => window.location.href = 'http://localhost:3001/auth/github'}
-                >
-                   Connect to Github
-                </button>
+                <div className='space-x-4'>
+                    <button 
+                        className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500' 
+                        onClick={() => window.location.href = 'http://localhost:3001/auth/github'}
+                    >
+                    Connect to Github
+                    </button>
+
+                    <button
+                        className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500'
+                        onClick={() => token? pushCode(token, 'asajjad2/test-repo', 'test-file.js', 'console.log("Hello World")') : console.log('No token')}
+                    >
+                        Push Dummy Code
+                    </button>
+                </div>
+                
 
 
 
