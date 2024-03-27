@@ -42,6 +42,15 @@ export default function DashboardPage() {
                     </span>
                 </p>
                 
+                <button 
+                    className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500' 
+                    onClick={() => window.location.href = 'http://localhost:3001/auth/github'}
+                >
+                   Connect to Github
+                </button>
+
+
+
                 {projects.length === 0 ? (
                     <p>You currently have no projects.</p>
                 ) : (
