@@ -1,20 +1,32 @@
 "use client"
+import { useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth'
 import { useUserProjects } from '@/hooks/useUserProjects';
 
 import ProjectCard from '@/components/project-card'
-  
+import { useUser } from '@/context/userContext';
+import { addUserToExternalTable } from '@/lib/supabaseFunctions';
 
 export default function DashboardPage() {
+
+    const { user } = useUser();
+
+    // alot of supabase calls will be made here
+    useEffect(() => {
+        if (user) {
+            const userUUID = user.id; 
+            const userEmail = user.email; 
+            addUserToExternalTable(userUUID, userEmail).catch(console.error);
+        }
+    }, [user]); 
 
     const { loadingProjects, projects, error } = useUserProjects()
     const { loadingAuth } = useAuth()
 
-    // const avatar = session.user.user_metadata.avatar_url;
     if(loadingAuth || loadingProjects) return <>Getting Projects.....</>
     if (error) return <p>Error: {error}</p>;
 
-    console.log(projects)
+    // console.log(projects)
 
     if(projects.length == 0){
         return <h2>You currently have no projects.</h2>

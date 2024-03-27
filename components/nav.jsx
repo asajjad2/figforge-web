@@ -12,7 +12,6 @@ export default function Nav({img, name}) {
 
     const { user } = useUser()
     const avatar = user?.user_metadata?.avatar_url
-    console.log("user info nav", avatar)
     const router = useRouter()
 
   return (
