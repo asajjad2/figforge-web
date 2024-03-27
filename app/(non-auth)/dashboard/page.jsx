@@ -8,8 +8,9 @@ import ProjectCard from '@/components/project-card'
 export default function DashboardPage() {
 
     const { loadingProjects, projects, error } = useUserProjects()
-    const { loadingAuth, session } = useAuth()
+    const { loadingAuth } = useAuth()
 
+    // const avatar = session.user.user_metadata.avatar_url;
     if(loadingAuth || loadingProjects) return <>Getting Projects.....</>
     if (error) return <p>Error: {error}</p>;
 

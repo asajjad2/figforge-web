@@ -5,8 +5,14 @@ import Image from 'next/image'
 import NavLogo from 'public/nav-logo.svg'
 import { useRouter } from 'next/navigation'
 
+import { useUser } from '@/context/userContext'
+
 export default function Nav({img, name}) {
 
+
+    const { user } = useUser()
+    const avatar = user?.user_metadata?.avatar_url
+    console.log("user info nav", avatar)
     const router = useRouter()
 
   return (
@@ -25,12 +31,10 @@ export default function Nav({img, name}) {
         </div>
         <div className='flex flex-1 justify-between'>
             <SearchBar />
-            <Image 
-                src={img} 
-                alt={name}
+            <img src={avatar} alt={name} 
+                className='rounded-full bg-gray-400'
                 width={40}
                 height={40}
-                className='rounded-full bg-gray-400'
             />
         </div>
        
