@@ -23,13 +23,13 @@ function truncateString(str) {
     return str.substring(0, 22) + '...';
 }
 
-export default function ProjectCard({id, name, lastUpdated, description}){
+export default function ProjectCard({id, name, lastUpdated, description, token}){
 
     const router = useRouter();
 
     lastUpdated = daysAgo(lastUpdated.split(" ")[0]);
     const handleClick = () => {
-        router.push(`/sandbox/${id}`)
+        router.push(`/sandbox/${id}?token=${token}`)
     }
 
 

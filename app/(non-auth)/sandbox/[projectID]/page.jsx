@@ -6,14 +6,58 @@ import FeatherIcon from 'feather-icons-react/build/FeatherIcon'
 import { useToast } from "@/components/ui/use-toast"
 import { downloadFile } from "@/lib/utils";
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 
-export default function Page({ params, searchParams }) {
+import { useUser } from "@/context/userContext";
+
+async function pushCode(accessToken, repository) {
+
+    if(!accessToken || !repository) return console.error('Access token or repository not provided');
+
+    const response = await fetch('http://localhost:3001/push-code', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        accessToken,
+        repository,
+      })
+    });
+  
+    const data = await response.json();
+    if (!data.success) {
+      console.error('Failed to push code:', data.message);
+      return;
+    }
+  
+    console.log('Code pushed successfully:', data.result);
+}
+
+
+export default function Page({ params }) {
+
+    const { user } = useUser();
+
+    const owner = user.user_metadata.user_name;
 
     const { toast } = useToast()
 
     const { projectPages, loading, error } = useProjectData(params.projectID);
+    console.log(projectPages)
+    const searchParams = useSearchParams();
+    const token = searchParams.get('token');
+
     const [file, setFile] = useState(null);
     const [combinedPages, setCombinedPages] = useState([]);
+
+    const pushCodeToGithub = async () => {
+        const accessToken = token;
+        const repository = owner + "/" + params.projectID;
+        const files = combinedPages;
+
+        await pushCode(accessToken, repository, files);
+    }
 
     useEffect(() => {
         if (projectPages.length > 0) {
@@ -36,8 +80,6 @@ export default function Page({ params, searchParams }) {
     if(loading) return <>Loading Project...</>
     if (error) return <p>Error: {error}</p>;
 
-    console.log(file)
-
     const changeFile = (index) => {
         console.log(combinedPages[index])
         setFile(combinedPages[index])
@@ -47,7 +89,7 @@ export default function Page({ params, searchParams }) {
 
     return (
         <div className='flex flex-1 overflow-hidden'>
-            <ProjectSidebar projectPages={combinedPages} changeFile={changeFile}/>
+            <ProjectSidebar projectPages={combinedPages} changeFile={changeFile} pushCodeToGithub={pushCodeToGithub}/>
             <div className='flex-1 overflow-auto overflow-y-hidden'>
                 {file && (
                     <>
@@ -58,6 +100,12 @@ export default function Page({ params, searchParams }) {
                             defaultValue={file.content}
                             width="90%"
                         />
+
+
+                        <button
+                            className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500 absolute right-52 bottom-14'
+                            onClick={pushCodeToGithub}
+                        > Push Code To Github </button>
 
                         <div className="cursor-pointer absolute right-44 bottom-16 text-white hover:text-gray-400 " onClick={() => {
                             navigator.clipboard.writeText(file.content)

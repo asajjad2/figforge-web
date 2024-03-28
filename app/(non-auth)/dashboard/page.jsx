@@ -38,9 +38,7 @@ export default function DashboardPage() {
 
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
-    const { user } = useUser();
-
-    console.log('token', token);
+    const { user, setUserToken } = useUser();
 
     // A lot of supabase calls will be made here
     useEffect(() => {
@@ -107,6 +105,7 @@ export default function DashboardPage() {
                                     description={description}
                                     lastUpdated={updated_at}
                                     key={id}
+                                    token={token}
                                 />
                             );
                         })}
