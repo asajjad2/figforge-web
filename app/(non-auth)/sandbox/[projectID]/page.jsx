@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 
 import { useUser } from "@/context/userContext";
 
-async function pushCode(accessToken, repository) {
+async function pushCode(accessToken, repository, username, repoName) {
 
     if(!accessToken || !repository) return console.error('Access token or repository not provided');
 
@@ -30,6 +30,9 @@ async function pushCode(accessToken, repository) {
       console.error('Failed to push code:', data.message);
       return;
     }
+
+    //navigate to the github repo
+    window.open(`https://github.com/${username}/${repoName.split(" ").join("_")}.git`, '_blank');
   
     console.log('Code pushed successfully:', data.result);
 }
@@ -55,8 +58,9 @@ export default function Page({ params }) {
         const accessToken = token;
         const repository = owner + "/" + params.projectID;
         const files = combinedPages;
+        const repoName = files[0].project_name;
 
-        await pushCode(accessToken, repository, files);
+        await pushCode(accessToken, repository, owner, repoName);
     }
 
     useEffect(() => {
