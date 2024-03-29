@@ -79,13 +79,6 @@ export default function DashboardPage() {
                     >
                     Connect to Github
                     </button>
-
-                    <button
-                        className='bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500'
-                        onClick={() => token? pushCode(token, 'asajjad2/test-repo', 'test-file.js', 'console.log("Hello World")') : console.log('No token')}
-                    >
-                        Push Dummy Code
-                    </button>
                 </div>
                 
 
