@@ -60,32 +60,17 @@ export default function DashboardPage() {
     <>
       <div className="px-8 py-6 h-screen space-y-8 bg-gray-50">
         {/* Always display user ID with option to copy */}
-        {/* <p>
-          Welcome{" "}
-          <span className="font-semibold">{user?.email.split("@")[0]}</span>
-          <br />
-          Here's your figma plugin key:
-          <span className="ml-1 font-semibold">{user?.id}</span>
-          <span className="ml-2">
-            <button
-              className="border border-green-500 bg-green-700 rounded px-2 py-1 active:bg-green-500"
-              onClick={() => navigator.clipboard.writeText(user?.id)}
-            >
-              Copy
-            </button>
-          </span>
-        </p>
 
         <div className="space-x-4">
           <button
-            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-500"
+            className="py-2 px-6 bg-gray-800 text-white border rounded-full text-lg"
             onClick={() =>
               (window.location.href = "http://localhost:3001/auth/github")
             }
           >
             Connect to Github
           </button>
-        </div> */}
+        </div>
 
         {projects.length === 0 ? (
           <div className="flex items-center justify-center h-full w-full">
