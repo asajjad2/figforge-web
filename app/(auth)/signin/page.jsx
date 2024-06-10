@@ -37,25 +37,32 @@ export default function SignIn() {
         setLoading(true);
         setError(null);
 
-        const {email, password} = state;
-        if(!email || !password) {
-            setError("Email and password required");
-            setLoading(false);
-            return;
-        }
+        // const {email, password} = state;
+        // if(!email || !password) {
+        //     setError("Email and password required");
+        //     setLoading(false);
+        //     return;
+        // }
 
         try{
-            const {error, data} = await supabase.auth.signInWithPassword({
-                email,
-                password,
-            });
-            if (error) throw error;
-            console.log(data);
+            // const {error, data} = await supabase.auth.signInWithPassword({
+            //     email,
+            //     password,
+            // });
+            // if (error) throw error;
+            // console.log(data);
 
+            //sign in with github
+            const {error, data} = await supabase.auth.signInWithOAuth({
+                provider: "github",
+            });
+
+            console.log(data);
             // navigate to dashboard
             router.push("/dashboard");
 
         } catch (error) {
+            console.log(error);
             setError(error.error_description || error.message);
         } finally {
             setLoading(false);
@@ -69,7 +76,7 @@ export default function SignIn() {
                 className="mt-4 grid gap-y-2 place-items-center"
                 onSubmit={signInUser}
             >
-                <label htmlFor="username">
+                {/* <label htmlFor="username">
                 Email
                 <input
                     name="email"
@@ -86,16 +93,16 @@ export default function SignIn() {
                     className="text-gray-100 mt-1 px-2 py-1 w-60 block bg-zinc-800 border border-zinc-700 rounded"
                     onChange={handleChange}
                 />
-                </label>
+                </label> */}
                 <button
-                disabled={!state.email || !state.password}
+                // disabled={!state.email || !state.password}
                 className={`mt-2 py-1 w-full border border-green-500 bg-green-700 rounded flex justify-center items-center gap-x-2 ${
                     !state.email || !state.password
                     ? "opacity-50"
                     : "hover:bg-green-600"
                 }`}
                 >
-                Sign in
+                Sign in With Github
                 {loading && (
                     <Image
                     src={Loader}

@@ -1,8 +1,9 @@
 "use client"
 import React from 'react'
 import FeatherIcon from 'feather-icons-react/build/FeatherIcon'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/useAuth';
+import { supabase } from '@/lib/supabase'
 
 const headerItems = [
     {
@@ -16,12 +17,10 @@ const headerItems = [
     },  
 ]
 
-const SidebarItem = ({item, router}) => {
+const SidebarItem = ({item, router, handleClick}) => {
     return (
         <div className="px-3 py-2 rounded-[6px] space-x-3 hover:text-white text-gray-400 font-medium text-base flex cursor-pointer"
-            onClick={() => {
-                router.push(item.path)
-            }}
+            onClick={handleClick?handleClick:()=>router.push(item.path)}
         >
             {item.icon?
             <FeatherIcon className="inline-block" icon={item.icon}/>:
@@ -33,8 +32,15 @@ const SidebarItem = ({item, router}) => {
 
 export default function NavSidebar() {
 
+    const router = useRouter();
 
-    const router = useRouter()
+    const signOut = async () => {
+        const { error } = await supabase.auth.signOut();
+
+        if(error) console.log(error)
+        else
+            router.push('/')
+    }
 
   return (
     <div className='py-8 mx-4 min-w-[19vw] h-full flex flex-col justify-between '>
@@ -47,7 +53,7 @@ export default function NavSidebar() {
         <footer>
         <div className="header-items">
             <SidebarItem item={{icon: "settings", text: "Settings"}}/>
-            <SidebarItem item={{icon: "log-out", text: "Logout"}}/>
+            <SidebarItem item={{icon: "log-out", text: "Logout"}} handleClick={signOut}/>
         </div>
         </footer>
     </div>
