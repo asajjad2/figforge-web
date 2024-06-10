@@ -93,7 +93,9 @@ export default function Page({ params }) {
     setFile(combinedPages[index]);
   };
 
-  if (!file) return <div className="px-10 ">No files found</div>;
+  // if (!file) return <div className="px-10 ">No files found</div>;
+
+  console.log(file);
 
   return (
     <div className="w-full">
