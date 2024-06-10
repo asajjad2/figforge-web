@@ -108,9 +108,6 @@ export default function Page({ params }) {
           <h1 className="text-lg font-semibold">Code Editor</h1>
         </div>
         <div className="flex gap-4">
-          <button className="py-2 px-6 text-gray-800 border rounded-full text-lg">
-            Edit
-          </button>
           <button
             className="py-2 px-6 bg-gray-800 text-white border rounded-full text-lg"
             onClick={pushCodeToGithub}
