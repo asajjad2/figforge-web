@@ -12,6 +12,8 @@ import { useSearchParams } from "next/navigation";
 import NotFound from "@/public/not-found.png";
 import Image from "next/image";
 
+import FeatherIcon from "feather-icons-react/build/FeatherIcon";
+
 async function pushCode(accessToken, repository, filePath, code) {
   const response = await fetch("http://localhost:3001/push-code", {
     method: "POST",
@@ -60,16 +62,29 @@ export default function DashboardPage() {
     <>
       <div className="px-8 py-6 h-screen space-y-8 bg-gray-50">
         {/* Always display user ID with option to copy */}
+        <div className="flex w-full justify-between items-center">
+          <p className="flex">
+            <span className="ml-1 font-semibold">{user?.id}</span>
+            <span className="ml-2">
+              <FeatherIcon
+                icon={"copy"}
+                size={20}
+                className={"cursor-pointer opacity-50 hover:opacity-70"}
+                onClick={() => navigator.clipboard.writeText(user?.id)}
+              />
+            </span>
+          </p>
 
-        <div className="space-x-4">
-          <button
-            className="py-2 px-6 bg-gray-800 text-white border rounded-full text-lg"
-            onClick={() =>
-              (window.location.href = "http://localhost:3001/auth/github")
-            }
-          >
-            Connect to Github
-          </button>
+          <div className="space-x-4">
+            <button
+              className="py-2 px-6 bg-gray-800 text-white border rounded-full text-lg"
+              onClick={() =>
+                (window.location.href = "http://localhost:3001/auth/github")
+              }
+            >
+              Connect to Github
+            </button>
+          </div>
         </div>
 
         {projects.length === 0 ? (
